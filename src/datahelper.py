@@ -5,7 +5,37 @@ class DataHelper():
     def __init__(self):
         pass
 
-    def output_dict(self, data, file_path, keyword_list=None):
+    def read_list(self, file_path):
+        """
+        读入本地的list文件
+        :param file_path:输入的文件路径
+        :return:
+        """
+        if not os.path.exists(file_path):
+            print("File not exists ! [%s]" % file_path)
+            return []
+
+        data = []
+        with open(file_path, "r", encoding="utf-8") as f:
+            for line in f.readlines():
+                data.append(line.strip())
+        return data
+
+    def write_list(self, data, file_path):
+        """
+        将list数据写入本地
+        :param data: list类型的数据
+        :param file_path: 输出的文件路径
+        :return:
+        """
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        with open(file_path, "a", encoding="utf-8") as f:
+            for value in data:
+                f.write("%s\n" % (str(value).strip()))
+        return
+
+    def write_dict(self, data, file_path, keyword_list=None):
         """
         将dict数据输出到本地
         :param data: dict数据
