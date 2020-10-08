@@ -7,7 +7,7 @@ output_keywords = [["title", "标题"], ["keywords", "关键词"], ["time", "日
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--more_news_times", type=int, default=1, help="Number of click the 'more news' button")
+    parser.add_argument("--more_news_times", type=int, default=3, help="Number of click the 'more news' button")
     parser.add_argument("--threading_num", type=int, default=3, help="Number of threading")
     parser.add_argument('-o', "--output_dir", type=str, default="../output")
     parser.add_argument('-i', "--ip_list_file", type=str, default="../input/alive_ip_list.txt")

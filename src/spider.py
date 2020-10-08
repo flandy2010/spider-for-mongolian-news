@@ -47,7 +47,7 @@ class Spider():
         self.write_visited_url_set()
 
     def download_url(self):
-        for root_url in self.root_url_list:
+        for root_url in self.root_url_list[11:]:
             url_set = get_url(root_url, more_news_time=self.args.more_news_times)
             num = 0
             for url in url_set:
@@ -57,7 +57,7 @@ class Spider():
                 self.unvisited_url_list.append(url)
                 with open(self.args.unvisited_url, "a", encoding="utf-8") as f:
                     f.write("%s\n" % url)
-                time.sleep(2 + random.random() * 3)
+                time.sleep(5 + random.random() * 3)
             print(">>> INFO: Found %d new urls from page %s" % (num, root_url))
         return
 
@@ -83,7 +83,7 @@ class Spider():
                             self.ip_dict.pop(ip)
                         if try_num >= 3:
                             break
-                        time.sleep(random.random() * 2 + try_num * 5)
+                        time.sleep(random.random() * 5 + try_num * 5)
                         continue
                     else:
                         title_data = data["title"].replace(".", "·")
@@ -95,7 +95,7 @@ class Spider():
                         self.output_page(file_path, data)
                         self.visited_url_set.add(url)
                         print("Thread：%s get No.%d page：%s successfully" % (threading.current_thread().name, p, url))
-                        time.sleep(random.random() * 2 + 5)
+                        time.sleep(random.random() * 5 + 5)
                         break
                 except Exception as e:
                     print("%s, retrying" % e)
@@ -113,7 +113,7 @@ class Spider():
 
     def get_root_url(self):
         data = self.datahelper.read_list(self.args.root_url)
-        print(">>> Read root url list successfully !")
+        print(">>> Read %d root url list successfully !" % len(data))
         return data
 
     def get_visited_url_set(self):
@@ -123,7 +123,7 @@ class Spider():
 
     def get_unvisited_url_list(self):
         data = self.datahelper.read_list(self.args.unvisited_url)
-        print(">>> Read un-visited url list successfully !")
+        print(">>> Read un-visited %d urls list successfully ! " % len(data))
         return data
 
     def get_ip_dict(self):
@@ -131,7 +131,7 @@ class Spider():
         ip_dict = {}
         for ip in alive_ip_list:
             ip_dict[ip] = 0
-        print(">>> Read alive ip list successfully !")
+        print(">>> Read %d alive ip list successfully !" % len(ip_dict))
         return ip_dict
 
     def write_unvisited_url_list(self):

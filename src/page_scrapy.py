@@ -57,15 +57,24 @@ def get_url(root_url, more_news_time=10):
 
     # 展开网页
     for x in range(more_news_time):
-        print("Click 'More news' button (%d times)" % (x + 1))
         # 待修改
-        driver.find_element_by_xpath("/html/body/div[2]/div[2]/section[1]/div/div/div[1]/div[2]/div[1]/div/div[1]/a/div").click()
+        try:
+            driver.find_element_by_xpath("/html/body/div[2]/div[2]/section[1]/div/div/div[1]/div[2]/div[1]/div/div[1]/a/div").click()
+            print("Click 'More news' button (%d times)" % (x + 1))
+        except Exception as e:
+            print("When getting url, error happen %s" % e)
+            break
         time.sleep(2 + 4 * random.random())
+
+    print("aa")
 
     # 获取网页内部的url
     soup = BeautifulSoup(driver.page_source, "html.parser")
+    driver.quit()
+
     pattern = re.compile(r'/r/[0-9a-z]{5}')
     for tag in soup.find_all("a"):
+
         if "href" not in tag.attrs:
             continue
         res = re.match(pattern, tag.attrs["href"])
@@ -73,15 +82,13 @@ def get_url(root_url, more_news_time=10):
             url = "https://gogo.mn%s" % res.group()
             url_set.add(url)
 
-    driver.quit()
-
     return url_set
 
 
 if __name__=="__main__":
     original_url = "http://httpbin.org/get"
     test_url = "https://gogo.mn/r/y6vg2"
-    test_root_list = ["https://gogo.mn/i/2"]
+    test_root = "https://gogo.mn/i/9629"
 
     # get_page(original_url)
-    get_url(test_root_list, more_news_time=2)
+    get_url(test_root, more_news_time=2)
