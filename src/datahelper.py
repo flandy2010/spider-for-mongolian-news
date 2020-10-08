@@ -18,7 +18,8 @@ class DataHelper():
         data = []
         with open(file_path, "r", encoding="utf-8") as f:
             for line in f.readlines():
-                data.append(line.strip())
+                if line.strip() != "":
+                    data.append(line.strip())
         return data
 
     def write_list(self, data, file_path):
@@ -35,7 +36,7 @@ class DataHelper():
                 f.write("%s\n" % (str(value).strip()))
         return
 
-    def write_dict(self, data, file_path, keyword_list=None):
+    def write_dict(self, file_path, data, keyword_list=None):
         """
         将dict数据输出到本地
         :param data: dict数据
